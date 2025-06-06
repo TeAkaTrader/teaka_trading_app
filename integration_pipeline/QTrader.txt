@@ -1,0 +1,18 @@
+QTrader/
+├── data/                  # raw and processed market data (CSV, etc.)
+├── models/                # saved ML model files (classification, RL agent)
+├── simulation/            # RL environment and training harness
+│   ├── env.py             # custom Gym environment class
+│   └── train_rl.py        # reinforcement learning training loop
+├── algorithms/            # model definition scripts
+│   ├── classifier.py      # code for classification/regression model
+│   └── dqn_agent.py       # code for Q-learning/DQN agent
+├── api/                   # backend API server code
+│   ├── server.py          # Flask/FastAPI app and endpoints
+│   └── websockets.py      # WS handlers for live data/predictions
+├── web/                   # front-end static files (HTML/CSS/JS)
+│   ├── index.html
+│   ├── dashboard.html
+│   └── script.js
+├── requirements.txt       # Python dependencies (Flask/FastAPI, ML libs, etc.)
+└── README.md              # project overview and run instructions

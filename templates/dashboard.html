@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teaka Trading Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #111;
+      color: #eee;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: auto auto 1fr;
+      grid-gap: 10px;
+      padding: 10px;
+    }
+    #chart, #portfolio, #history, #hot, #feed, #bot {
+      padding: 10px;
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 0 8px #000;
+    }
+    #chart { grid-column: 1 / 2; grid-row: 1 / 3; height: 500px; }
+    #portfolio { grid-column: 2 / 3; grid-row: 1 / 2; }
+    #hot { grid-column: 2 / 3; grid-row: 2 / 3; }
+    #history { grid-column: 1 / 2; grid-row: 3 / 4; }
+    #feed { grid-column: 2 / 3; grid-row: 3 / 4; }
+    #bot { grid-column: 1 / 3; grid-row: 4 / 5; }
+  </style>
+</head>
+<body>
+  <div id="chart">📊 TradingView Chart Placeholder</div>
+  <div id="portfolio">💼 Portfolio Summary Placeholder</div>
+  <div id="hot">🔥 Hot Assets Placeholder</div>
+  <div id="history">📜 Trade History Placeholder</div>
+  <div id="feed">🕒 Timescale Feed Placeholder</div>
+  <div id="bot">🧠 Bot Strategy Summary Placeholder</div>
+</body>
+</html>

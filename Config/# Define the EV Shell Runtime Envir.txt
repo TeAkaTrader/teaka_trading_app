@@ -1,0 +1,59 @@
+# Define the EV Shell Runtime Environment JSON content
+$evEnvJson = @'
+{
+  "name": "EV Shell Runtime Environment",
+  "components": {
+    "Python": {
+      "type": "sandboxed_jupyter_kernel",
+      "execution": "in-memory and file-based",
+      "file_locations": {
+        "vault": "D:\\Starforge\\Vault\\",
+        "inbox": "D:\\EV_Files\\Bridge\\"
+      },
+      "features": [
+        "Script generation and execution",
+        "Charting and plotting",
+        "Data analysis and file parsing",
+        "Real-time interaction with Forgekeeper"
+      ]
+    },
+    "GEM Bot": {
+      "type": "Command and Runtime Executor",
+      "functions": [
+        "Message-based script execution",
+        "Python runtime manager",
+        "Vault integration",
+        "Spell interpreter",
+        "AI orchestration"
+      ]
+    },
+    "Spellbook": {
+      "path": "D:\\Starforge\\Vault\\Spells\\",
+      "purpose": "Houses spell scripts used for triggering EV actions",
+      "format": ".spell or .txt"
+    },
+    "Inbox Watcher": {
+      "path": "D:\\EV_Files\\Bridge\\",
+      "actions": [
+        "File drop detection",
+        "Automatic script execution on detection",
+        "Bridge communication with external systems"
+      ]
+    }
+  },
+  "runtime_behavior": {
+    "interaction": "Command prompts",
+    "persistence": "Script saving on request",
+    "autonomy": "Task execution on schedule or trigger"
+  }
+}
+'@
+
+# Define the path to save the JSON file
+$filePath = "D:\\EV_Files\\Tools\\ev_runtime_environment.json"
+
+# Save the JSON to the file
+$evEnvJson | Out-File -FilePath $filePath -Encoding utf8
+
+# Open the file in Notepad
+Start-Process notepad.exe $filePath

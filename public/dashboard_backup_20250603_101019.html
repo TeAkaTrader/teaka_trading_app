@@ -1,0 +1,44 @@
+﻿<script type="module">
+// === ADVANCED STRATEGY LOGIC ===
+
+function calculateZScore(returns) {
+  const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+  const variance = returns.map(r => (r - mean) ** 2).reduce((a, b) => a + b, 0) / returns.length;
+  const stddev = Math.sqrt(variance);
+  const latestReturn = returns[returns.length - 1];
+  return stddev ? (latestReturn - mean) / stddev : 0;
+}
+
+function calculateSharpeRatio(returns) {
+  const avg = returns.reduce((a, b) => a + b, 0) / returns.length;
+  const std = Math.sqrt(returns.map(x => (x - avg) ** 2).reduce((a, b) => a + b, 0) / returns.length);
+  return std ? (avg / std) * Math.sqrt(252) : 0;
+}
+
+function getTradeQualityScore(assetData) {
+  return (assetData.trendStrength * 0.4 + assetData.volumeSpike * 0.3 + assetData.rsiScore * 0.3).toFixed(2);
+}
+
+function getPositionSize(confidence, capital = 10000) {
+  return Math.max(1, Math.round(capital * Math.min(0.1, confidence / 100)));
+}
+
+function confirmEntry(zScore, trendScore, rsi) {
+  return zScore > 1.2 && trendScore > 0.5 && rsi > 55;
+}
+
+function getTrailingStop(price, volatility) {
+  return +(price - 2 * volatility).toFixed(2);
+}
+
+function exportRetrainLog(logData) {
+  const blob = new Blob([JSON.stringify(logData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'retrain_log.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  console.log("Retrain log exported.");
+}
+</script>

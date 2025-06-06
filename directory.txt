@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teaka Trading Dashboard</title>
+  <script src="js/main.js"></script>
+</head>
+<body>
+  <h1>Welcome to Teaka Trading</h1>
+  <p>Status: Connected</p>
+</body>
+</html>
+
+<!-- TradingView Chart Widget -->
+<div class="tradingview-widget-container">
+  <div id="tradingview_btc"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+    new TradingView.widget({
+      "container_id": "tradingview_btc",
+      "width": "100%",
+      "height": 400,
+      "symbol": "KUCOIN:BTCUSDT",
+      "interval": "1",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1",
+      "locale": "en",
+      "toolbar_bg": "#222",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "hide_top_toolbar": false
+    });
+  </script>
+</div>

@@ -1,0 +1,9 @@
+{
+  "model_name": "teaka_price_predictor",
+  "type": "regression",
+  "framework": "tensorflowjs",
+  "input_features": ["price", "volume", "sma", "macd"],
+  "output": "next_price",
+  "training_epochs": 200,
+  "learning_rate": 0.001
+}

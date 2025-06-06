@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File "E:\EV_Files\import_teaka_sql.ps1"

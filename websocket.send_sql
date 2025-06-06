@@ -1,0 +1,8 @@
+CREATE TABLE trades (
+  id SERIAL PRIMARY KEY, timestamp TIMESTAMP, symbol TEXT,
+  side TEXT, price NUMERIC, quantity NUMERIC
+);
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY, timestamp TIMESTAMP, symbol TEXT,
+  order_type TEXT, price NUMERIC, quantity NUMERIC, status TEXT
+);

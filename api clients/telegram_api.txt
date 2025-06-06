@@ -1,0 +1,4 @@
+TELEGRAM
+
+TOKEN: 7711152546:AAFAf-5JT1yKg7c6gsk6p3UWYqiy249BPUc
+ID: @teaka_trader_bot
