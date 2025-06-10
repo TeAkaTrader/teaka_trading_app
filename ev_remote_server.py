@@ -1,32 +1,46 @@
+
 from flask import Flask, request, jsonify
 import json
 import os
 
 app = Flask(__name__)
 
-# Memory File Path
-BRAIN_FILE = "E:\\EV_Files\\ev_virtual_brain.json"
+COMMAND_FILE = 'E:/EchoVault/command.json'
+RESPONSE_FILE = 'E:/EchoVault/response.json'
+BRAIN_FILE = 'E:/EV_Files/ev_virtual_brain.json'
 
-# Load Brain Memory (if available)
 def load_brain():
     if os.path.exists(BRAIN_FILE):
-        with open(BRAIN_FILE, "r") as f:
+        with open(BRAIN_FILE, 'r') as f:
             return json.load(f)
     return {"error": "Brain file missing"}
 
-@app.route("/ev_remote/command", methods=["GET", "POST"])
+@app.route('/ev_remote/command', methods=['GET', 'POST'])
 def remote_command():
-    data = request.json or {}
+    data = request.get_json() or {}
     command = data.get("command", "status_check")
 
+    # Save command to EV Vault
+    with open(COMMAND_FILE, 'w') as f:
+        json.dump(data, f, indent=4)
+
+    # Load EV brain memory
     brain = load_brain()
 
-    response = {
+    return jsonify({
         "ev_status": "online",
+        "received_command": command,
         "brain_link": brain,
-        "received_command": command
-    }
-    return jsonify(response)
+        "vault_path": COMMAND_FILE
+    })
 
-if __name__ == "__main__":
+@app.route('/ev_remote/result', methods=['GET'])
+def get_response():
+    if os.path.exists(RESPONSE_FILE):
+        with open(RESPONSE_FILE, 'r') as f:
+            result = json.load(f)
+        return jsonify(result)
+    return jsonify({'status': 'No result yet.'})
+
+if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5050, debug=True)

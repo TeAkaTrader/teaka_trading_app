@@ -6,12 +6,10 @@ from flask_cors import CORS
 from datetime import timedelta
 import os
 from alert_routes import alert_bp
-app.register_blueprint(alert_bp)
 
-app = Flask(ev_remote_server)
+app = Flask(__name__)
 CORS(app)
 
-# Environment config (override with .env later)
 app.config['SECRET_KEY'] = 'super-secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:EVBot-80@localhost:5432/postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -22,17 +20,19 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-# User Model
+app.register_blueprint(alert_bp)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    role = db.Column(db.String(50), default="user")  # roles: dev, admin, user
+    role = db.Column(db.String(50), default="user")
 
-# Routes
 @app.route("/register", methods=["POST"])
 def register():
-    data = request.json
+    data = request.get_json()
+    if not data or "email" not in data or "password" not in data:
+        return jsonify({"msg": "Invalid input"}), 400
     if User.query.filter_by(email=data["email"]).first():
         return jsonify({"msg": "Email already registered"}), 409
     hashed_pw = bcrypt.generate_password_hash(data["password"]).decode("utf-8")
@@ -43,7 +43,9 @@ def register():
 
 @app.route("/login", methods=["POST"])
 def login():
-    data = request.json
+    data = request.get_json()
+    if not data or "email" not in data or "password" not in data:
+        return jsonify({"msg": "Invalid input"}), 400
     user = User.query.filter_by(email=data["email"]).first()
     if not user or not bcrypt.check_password_hash(user.password, data["password"]):
         return jsonify({"msg": "Bad credentials"}), 401

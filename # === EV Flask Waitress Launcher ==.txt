@@ -1,0 +1,37 @@
+# === EV Flask Waitress Launcher ===
+$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+$logFile = "E:/EV_Files/Logs/ev_flask_runtime.log"
+Add-Content $logFile "`n[$timestamp] ⚙️ Launching Flask apps via Waitress..."
+
+# --- Config ---
+$basePath       = "E:/EV_Files/teaka_trading_app"
+$pythonExe      = "python"
+$waitressPortMap = @{
+    "ev_remote_server.py" = 5000
+    "evbot_app.py"         = 5050
+}
+
+# --- Launcher ---
+foreach ($script in $waitressPortMap.Keys) {
+    $port = $waitressPortMap[$script]
+    $moduleName = [System.IO.Path]::GetFileNameWithoutExtension($script)
+
+    Add-Content $logFile "🚀 Launching $script on port $port..."
+
+    Start-Process -WindowStyle Hidden -FilePath $pythonExe -ArgumentList @(
+        "-m", "waitress", "serve",
+        "--host=0.0.0.0",
+        "--port=$port",
+        "$moduleName`:app"
+    ) -WorkingDirectory $basePath
+
+    Add-Content $logFile "✅ $script started successfully on port $port."
+}
+
+# --- Optionally Run Gem_LLM Daemon ---
+$llmPath = Join-Path $basePath "Gem_LLM.py"
+Start-Process -WindowStyle Hidden -FilePath $pythonExe -ArgumentList "$llmPath"
+Add-Content $logFile "🧠 Gem_LLM.py launched."
+
+Write-Host "`n🔧 All Flask apps launched. Log: $logFile"
+
