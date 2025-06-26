@@ -1,0 +1,50 @@
+
+identity = get_jwt_identity()
+    return jsonify(identity)
+
+@app.route('/ev_remote/ollama', methods=['POST'])
+def ask_ollama():
+    data = request.json
+    prompt = data.get("prompt", "")
+    model_name = data.get("model", "llama3")
+    url = "http://localhost:11434/api/generate"
+    payload = {"model": model_name, "prompt": prompt, "stream": False}
+    try:
+        response = requests.post(url, json=payload)
+        return jsonify({"response": response.json().get("response", "[No response from Ollama]")})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    if not model:
+        return jsonify({"error": "Model not loaded"}), 500
+    try:
+        data = request.json
+        features = np.array([data['features']])  # expects {"features": [f1, f2]}
+        prediction = model.predict(features)[0][0]
+        return jsonify({"prediction": float(prediction)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/brain/query', methods=['POST'])
+def brain_query():
+    data = request.json
+    key = data.get("key")
+    search = data.get("search")
+    if key and key in brain_data:
+        return jsonify({"result": brain_data[key]})
+    elif search:
+        matches = {k: v for k, v in brain_data.items() if search.lower() in k.lower()}
+        return jsonify({"matches": matches})
+    else:
+        return jsonify({"keys": list(brain_data.keys())})
+
+@app.route('/gembot/analyze', methods=['POST'])
+def gembot_analyze():
+    data = request.json
+    return jsonify(gembot.analyze(data))
+
+if __name__ == '__main__':
+    app.run(port=5050, debug=True)
+

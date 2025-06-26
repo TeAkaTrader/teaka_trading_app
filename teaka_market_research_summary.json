@@ -1,0 +1,38 @@
+{
+    "generated_on": "2025-06-14 13:01:17",
+    "strategy_updates": [
+        {
+            "asset": "GOLD",
+            "signal_type": "breakout",
+            "z_score": 1.35,
+            "sharpe_ratio": 1.56,
+            "rsi": 62,
+            "confidence": 82,
+            "entry_confirmed": true
+        },
+        {
+            "asset": "BTC",
+            "signal_type": "volatility spike",
+            "z_score": 0.88,
+            "sharpe_ratio": 1.21,
+            "rsi": 49,
+            "confidence": 52,
+            "entry_confirmed": false
+        }
+    ],
+    "recent_research": [
+        {
+            "title": "Macro Shifts in Commodity Correlations",
+            "date": "2025-06-13",
+            "asset_class": "commodities",
+            "research_score": 92
+        },
+        {
+            "title": "Sentiment Clusters in Tech Stocks",
+            "date": "2025-06-14",
+            "asset_class": "equities",
+            "research_score": 89
+        }
+    ],
+    "status": "recompiled"
+}
